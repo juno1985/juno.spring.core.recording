@@ -8,10 +8,11 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import juno.app.root.Person;
-import juno.spring.recording.util.Juno_Assert;
+import juno.spring.recoding.util.Juno_Assert;
 
 public class CoreTest {
 	
+	@SuppressWarnings("deprecation")
 	@Rule
 	public ExpectedException expectedExp = ExpectedException.none(); 
 
@@ -31,7 +32,7 @@ public class CoreTest {
 	
 	@Test
 	public void testSimpleLoad() {
-		BeanFactory bf = new XMLBeanFactory(new ClassPathResource("beans.xml"));
+		JunoBeanFactory bf = new Juno_XMLBeanFactory(new Juno_ClassPathResource("beans.xml"));
 		Person person = (Person) bf.getBean("person");
 		assertEquals("laowang", person.getName());
 	}

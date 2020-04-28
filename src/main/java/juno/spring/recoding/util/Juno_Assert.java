@@ -1,4 +1,4 @@
-package juno.spring.recording.util;
+package juno.spring.recoding.util;
 
 public abstract class Juno_Assert {
 

@@ -1,6 +1,5 @@
 package juno.spring.recoding.core.io;
 
-import org.springframework.util.ClassUtils;
 
 import juno.spring.recoding.util.Juno_Assert;
 import juno.spring.recoding.util.Juno_StringUtils;
@@ -21,7 +20,7 @@ public class Juno_ClassPathResource {
 			pathToUse = pathToUse.substring(1);
 		}
 		this.path = pathToUse;
-		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
+		this.classLoader = (classLoader != null ? classLoader : Juno_ClassUtils.getDefaultClassLoader());
 	}
 
 }

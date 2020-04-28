@@ -1,7 +1,9 @@
 package juno.spring.recoding.util;
 
 public abstract class Juno_ClassUtils {
-
+	
+	private static final char PACKAGE_SEPARATOR = '.';
+	private static final char PATH_SEPARATOR = '/';
 	public static ClassLoader getDefaultClassLoader() {
 		ClassLoader cl = null;
 		try {
@@ -29,5 +31,22 @@ public abstract class Juno_ClassUtils {
 			}
 		}
 		return cl;
+	}
+	
+	//获得类的包路径
+	public static String classPackageAsResourcePath(Class<?> clazz) {
+		
+		if(clazz == null) {
+			return "";
+		}
+		
+		String className = clazz.getName();
+		int packageEndIndex = className.lastIndexOf(PACKAGE_SEPARATOR);
+		if(packageEndIndex == -1) {
+			return "";
+		}
+		String packageName = className.substring(0, packageEndIndex);
+		return packageName.replace(PACKAGE_SEPARATOR, PATH_SEPARATOR);
+		
 	}
 }

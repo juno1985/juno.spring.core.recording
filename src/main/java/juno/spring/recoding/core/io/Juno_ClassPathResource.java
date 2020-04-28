@@ -2,9 +2,10 @@ package juno.spring.recoding.core.io;
 
 
 import juno.spring.recoding.util.Juno_Assert;
+import juno.spring.recoding.util.Juno_ClassUtils;
 import juno.spring.recoding.util.Juno_StringUtils;
 
-public class Juno_ClassPathResource {
+public class Juno_ClassPathResource implements Juno_Resource{
 	
 	private final String path;
 	private ClassLoader classLoader;

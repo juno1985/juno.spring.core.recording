@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import juno.app.root.Person;
+import juno.spring.recoding.core.io.Juno_ClassPathResource;
 import juno.spring.recoding.util.Juno_Assert;
 
 public class CoreTest {

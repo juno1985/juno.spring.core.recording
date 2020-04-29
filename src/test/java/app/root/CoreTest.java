@@ -1,13 +1,15 @@
 package app.root;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import juno.app.root.Person;
+import juno.spring.recoding.beans.factory.xml.Juno_XmlBeanFactory;
 import juno.spring.recoding.core.io.Juno_ClassPathResource;
 import juno.spring.recoding.util.Juno_Assert;
 
@@ -32,10 +34,18 @@ public class CoreTest {
 	}
 	
 	@Test
+	public void testLogJ() {
+		Log logger = LogFactory.getLog(getClass());
+		logger.trace("Test Log4J can print to console");
+	}
+	
+	@Test
 	public void testSimpleLoad() {
-		JunoBeanFactory bf = new Juno_XMLBeanFactory(new Juno_ClassPathResource("beans.xml"));
+		Juno_XmlBeanFactory bf = new Juno_XmlBeanFactory(new Juno_ClassPathResource("beans.xml"));
 		Person person = (Person) bf.getBean("person");
 		assertEquals("laowang", person.getName());
 	}
+	
+	
 
 }

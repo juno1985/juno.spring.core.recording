@@ -15,7 +15,9 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
+import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
 import juno.spring.recoding.core.io.Juno_Resource;
 import juno.spring.recoding.util.Juno_Assert;
 
@@ -25,6 +27,11 @@ public class Juno_XmlBeanDefinitionReader {
 	
 	private final ThreadLocal<Set<Juno_Resource>> resourcesCurrentlyBeingLoaded =
 			new ThreadLocal<Set<Juno_Resource>>();
+	
+	
+
+	public Juno_XmlBeanDefinitionReader(Juno_BeanDefinitionRegistry registry) {
+	}
 
 	public int loadBeanDefinitions(Juno_Resource resource) throws Exception {
 		Juno_Assert.notNull(resource, "Resource must not be null");
@@ -47,22 +54,33 @@ public class Juno_XmlBeanDefinitionReader {
 		try {
 			InputStream inputStream = resource.getInputStream();
 			try {
-				//委托给java.xml验证XML
+				//委托给SAX验证XML
 				InputSource inputSource = new InputSource(inputStream);
+				
+				return doLoadBeanDefinitions(inputSource, resource);
 			} finally {
 				inputStream.close();
 			}
+			
 			
 		} catch (IOException e) {
 			throw new Exception("IOException parsing XML document from " + resource, e);
 		}
 	}
 	
-	protected int doLoadBeanDefinitions(InputSource inputSource, Juno_Resource resource) {
+	protected int doLoadBeanDefinitions(InputSource inputSource, Juno_Resource resource) throws ParserConfigurationException, SAXException, IOException {
+		
 		Document doc = doLoadDocument(inputSource, resource);
+		if(logger.isTraceEnabled()) {
+			logger.trace("Loaded bean definitions from " + resource);
+		}
+	
+		
+		//TODO.. 返回已经注册bean的个数
+		return -1;
 	}
 
-	private Document doLoadDocument(InputSource inputSource, Juno_Resource resource) throws ParserConfigurationException, SAXException, IOException {
+	public Document doLoadDocument(InputSource inputSource, Juno_Resource resource) throws ParserConfigurationException, SAXException, IOException {
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
@@ -88,8 +106,12 @@ public class Juno_XmlBeanDefinitionReader {
 		
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		
+		docBuilder.setEntityResolver(new Juno_DelegatingEntityResolver());
+		
 		//org.springframework.beans.factory.xml.XmlBeanDefinitionReader.doLoadBeanDefinitions(InputSource, Resource)
 		Document doc = docBuilder.parse(inputSource);
+		
+		return doc;
 		
 	}
 }

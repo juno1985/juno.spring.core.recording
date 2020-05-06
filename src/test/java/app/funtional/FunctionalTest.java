@@ -18,7 +18,10 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
 import juno.spring.recoding.beans.factory.xml.Juno_DelegatingEntityResolver;
+import juno.spring.recoding.beans.factory.xml.Juno_XmlBeanDefinitionReader;
+import juno.spring.recoding.beans.factory.xml.Juno_XmlBeanFactory;
 import juno.spring.recoding.core.io.Juno_ClassPathResource;
 import juno.spring.recoding.core.io.Juno_Resource;
 import juno.spring.recoding.util.Juno_SimpleSaxErrorHandler;
@@ -84,6 +87,8 @@ public class FunctionalTest {
 			}
 		}
 	}
+	
+
 
 }
 ;

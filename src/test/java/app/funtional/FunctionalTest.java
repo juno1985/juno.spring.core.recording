@@ -2,6 +2,8 @@ package app.funtional;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,6 +20,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import juno.app.root.TestBean;
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
 import juno.spring.recoding.beans.factory.xml.Juno_DelegatingEntityResolver;
 import juno.spring.recoding.beans.factory.xml.Juno_XmlBeanDefinitionReader;
@@ -89,6 +92,28 @@ public class FunctionalTest {
 	}
 	
 
+	@Test
+	public void testReflectOfConstuctorAccessible() throws NoSuchMethodException, SecurityException {
+		Constructor<?> ctor = TestBean.class.getDeclaredConstructor();
+		
+		System.out.println(ctor.getName());
+		System.out.println(ctor.getModifiers());
+		System.out.println(Modifier.isPublic(ctor.getModifiers()));
+		System.out.println(ctor.isAccessible());
+		ctor.setAccessible(true);
+		System.out.println(ctor.isAccessible());
+	}
+	
+	@Test
+	public void testReflectOfConstructorParameterNum() {
+		Constructor<?>[] ctors = TestBean.class.getConstructors();
+		for(Constructor c : ctors) {
+			Class<?>[] parameterTypes = c.getParameterTypes();
+			System.out.println(parameterTypes.length);
+			for(Class clzz : parameterTypes)
+				System.out.println(clzz.getName());
+			System.out.println("------------------------");
+		}
+	}
 
 }
-;

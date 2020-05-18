@@ -75,6 +75,7 @@ public class Juno_XmlBeanDefinitionReader {
 			logger.trace("Loaded bean definitions from " + resource);
 		}
 	
+		int count = registerBeanDefinitions(doc, resource);
 		
 		//TODO.. 返回已经注册bean的个数
 		return -1;

@@ -16,6 +16,14 @@ public class Juno_BeanDefinitionHolder {
 		this.beanDefinition = beanDefinition;
 		this.beanName = beanName;
 	}
+
+	public Juno_BeanDefinition getBeanDefinition() {
+		return beanDefinition;
+	}
+
+	public String getBeanName() {
+		return beanName;
+	}
 	
 	
 }

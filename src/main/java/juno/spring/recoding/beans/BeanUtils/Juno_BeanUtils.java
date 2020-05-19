@@ -9,7 +9,7 @@ import java.util.Map;
 import juno.spring.recoding.util.Juno_Assert;
 import juno.spring.recoding.util.Juno_ReflectionUtils;
 
-public abstract class BeanUtils {
+public abstract class Juno_BeanUtils {
 	
 	private static final Map<Class<?>, Object> DEFAULT_TYPE_VALUES;
 	
@@ -23,21 +23,13 @@ public abstract class BeanUtils {
 		DEFAULT_TYPE_VALUES = Collections.unmodifiableMap(values);
 	}
 	
-	public static <T> T instantiateClass(Class<T> clazz){
+	public static <T> T instantiateClass(Class<T> clazz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		Juno_Assert.notNull(clazz, "Class must not be null");
 		if(clazz.isInterface()) {
 			throw new RuntimeException("Specified class is an interface");
 		}
 		
-		try {
-			return instantiateClass(clazz.getDeclaredConstructor());
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		return instantiateClass(clazz.getDeclaredConstructor());
 	}
 
 	private static <T> T instantiateClass(Constructor<T> ctor, Object... args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {

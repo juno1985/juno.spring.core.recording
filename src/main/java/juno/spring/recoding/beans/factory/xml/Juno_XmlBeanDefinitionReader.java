@@ -13,9 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
 import juno.spring.recoding.core.io.Juno_Resource;
@@ -24,6 +24,8 @@ import juno.spring.recoding.util.Juno_Assert;
 public class Juno_XmlBeanDefinitionReader {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
+	
+	private Juno_BeanDefinitionParserDelegate delegate;
 	
 	private final ThreadLocal<Set<Juno_Resource>> resourcesCurrentlyBeingLoaded =
 			new ThreadLocal<Set<Juno_Resource>>();
@@ -79,6 +81,18 @@ public class Juno_XmlBeanDefinitionReader {
 		
 		//TODO.. 返回已经注册bean的个数
 		return -1;
+	}
+
+	private int registerBeanDefinitions(Document doc, Juno_Resource resource) {
+		Element root  = doc.getDocumentElement();
+		
+		this.delegate = new Juno_BeanDefinitionParserDelegate(); 
+		
+		if(this.delegate.isDefaultNamespace(root)) {
+			
+		}
+		
+		return 0;
 	}
 
 	public Document doLoadDocument(InputSource inputSource, Juno_Resource resource) throws ParserConfigurationException, SAXException, IOException {

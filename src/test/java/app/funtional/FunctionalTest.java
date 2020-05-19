@@ -20,6 +20,7 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import juno.app.root.Person;
 import juno.app.root.TestBean;
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
 import juno.spring.recoding.beans.factory.xml.Juno_DelegatingEntityResolver;
@@ -114,6 +115,15 @@ public class FunctionalTest {
 				System.out.println(clzz.getName());
 			System.out.println("------------------------");
 		}
+	}
+	
+	@Test
+	public void testGetObjectHashCode() {
+		Person p = new Person();
+		System.out.println(p);
+		System.out.println(p.hashCode());
+		System.out.println(System.identityHashCode(p));
+		System.out.println(Integer.toHexString(System.identityHashCode(p)));
 	}
 
 }

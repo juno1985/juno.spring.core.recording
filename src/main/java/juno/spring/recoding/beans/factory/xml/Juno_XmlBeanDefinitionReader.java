@@ -14,6 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -88,11 +90,26 @@ public class Juno_XmlBeanDefinitionReader {
 		
 		this.delegate = new Juno_BeanDefinitionParserDelegate(); 
 		
-		if(this.delegate.isDefaultNamespace(root)) {
-			
-		}
+		parseBeanDefinitions(root, this.delegate);
 		
 		return 0;
+	}
+
+	private void parseBeanDefinitions(Element root,
+			Juno_BeanDefinitionParserDelegate delegate) {
+		if(this.delegate.isDefaultNamespace(root)) {
+			NodeList nl = root.getChildNodes();
+			for(int i = 0; i< nl.getLength(); i++) {
+				Node node = nl.item(i);
+				if(node instanceof Element) {
+					Element ele = (Element) node;
+					if(this.delegate.isDefaultNamespace(ele)) {
+						parseDefaultElement(ele, delegate);
+					}
+				}
+			}
+		}
+		
 	}
 
 	public Document doLoadDocument(InputSource inputSource, Juno_Resource resource) throws ParserConfigurationException, SAXException, IOException {

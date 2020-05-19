@@ -19,6 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import juno.spring.recoding.beans.factory.config.Juno_BeanDefinitionHolder;
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
 import juno.spring.recoding.core.io.Juno_Resource;
 import juno.spring.recoding.util.Juno_Assert;
@@ -32,7 +33,7 @@ public class Juno_XmlBeanDefinitionReader {
 	private final ThreadLocal<Set<Juno_Resource>> resourcesCurrentlyBeingLoaded =
 			new ThreadLocal<Set<Juno_Resource>>();
 	
-	
+	public static final String BEAN_ELEMENT = "bean";
 
 	public Juno_XmlBeanDefinitionReader(Juno_BeanDefinitionRegistry registry) {
 	}
@@ -97,7 +98,7 @@ public class Juno_XmlBeanDefinitionReader {
 
 	private void parseBeanDefinitions(Element root,
 			Juno_BeanDefinitionParserDelegate delegate) {
-		if(this.delegate.isDefaultNamespace(root)) {
+		if(delegate.isDefaultNamespace(root)) {
 			NodeList nl = root.getChildNodes();
 			for(int i = 0; i< nl.getLength(); i++) {
 				Node node = nl.item(i);
@@ -110,6 +111,25 @@ public class Juno_XmlBeanDefinitionReader {
 			}
 		}
 		
+	}
+
+	private void parseDefaultElement(Element ele,
+			Juno_BeanDefinitionParserDelegate delegate) {
+	if (delegate.nodeNameEquals(ele, BEAN_ELEMENT)) {
+			processBeanDefinition(ele, delegate);
+		}
+	
+		
+	}
+
+	private void processBeanDefinition(Element ele,
+			Juno_BeanDefinitionParserDelegate delegate) {
+		// TODO Auto-generated method stub
+		
+		Juno_BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
+		
+		// Register the final decorated instance.
+	//	BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 	}
 
 	public Document doLoadDocument(InputSource inputSource, Juno_Resource resource) throws ParserConfigurationException, SAXException, IOException {

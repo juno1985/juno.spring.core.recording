@@ -21,7 +21,6 @@ import org.xml.sax.SAXException;
 
 import juno.spring.recoding.beans.factory.config.Juno_BeanDefinitionHolder;
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
-import juno.spring.recoding.beans.factory.support.Juno_DefaultListableBeanFactory;
 import juno.spring.recoding.core.io.Juno_Resource;
 import juno.spring.recoding.util.Juno_Assert;
 
@@ -36,7 +35,7 @@ public class Juno_XmlBeanDefinitionReader {
 	
 	public static final String BEAN_ELEMENT = "bean";
 
-	public Juno_XmlBeanDefinitionReader(Juno_BeanDefinitionRegistry registry) {
+	public Juno_XmlBeanDefinitionReader(Juno_XmlBeanFactory factory) {
 	}
 
 	public int loadBeanDefinitions(Juno_Resource resource) throws Exception {
@@ -131,7 +130,7 @@ public class Juno_XmlBeanDefinitionReader {
 		
 		// Register the final decorated instance.
 	//	BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
-		Juno_DefaultListableBeanFactory.beanDefinitionMap.put(bdHolder.getBeanName(), bdHolder.getBeanDefinition());
+		Juno_BeanDefinitionRegistry.beanDefinitionMap.put(bdHolder.getBeanName(), bdHolder.getBeanDefinition());
 		
 	}
 

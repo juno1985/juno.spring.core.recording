@@ -1,9 +1,8 @@
 package juno.spring.recoding.beans.factory.xml;
 
-import juno.spring.recoding.beans.factory.support.Juno_DefaultListableBeanFactory;
 import juno.spring.recoding.core.io.Juno_Resource;
 
-public class Juno_XmlBeanFactory extends Juno_DefaultListableBeanFactory{
+public class Juno_XmlBeanFactory {
 	
 	private final Juno_XmlBeanDefinitionReader reader = new Juno_XmlBeanDefinitionReader(this);
 	
@@ -21,6 +20,16 @@ public class Juno_XmlBeanFactory extends Juno_DefaultListableBeanFactory{
 	
 	public Juno_XmlBeanDefinitionReader getReader() {
 		return this.reader;
+	}
+	
+	
+	public Object getBean(String name) {
+		return doGetBean(name);
+	}
+
+	private Object doGetBean(String name) {
+		
+		return null;
 	}
 
 }

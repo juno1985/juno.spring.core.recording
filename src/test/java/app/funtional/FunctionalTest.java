@@ -125,5 +125,18 @@ public class FunctionalTest {
 		System.out.println(System.identityHashCode(p));
 		System.out.println(Integer.toHexString(System.identityHashCode(p)));
 	}
+	
+	@Test
+	public void testGetConstructorArguments() throws NoSuchMethodException, SecurityException {
+		Class<?> clazz = Person.class;
+		
+		Constructor<?> ctor = clazz.getDeclaredConstructor(String.class);
+		
+		System.out.println(ctor.getName());
+		System.out.println(ctor.getParameterCount());
+		for(Class<?> c : ctor.getParameterTypes()) {
+			System.out.println(c.getName());
+		}
+	}
 
 }

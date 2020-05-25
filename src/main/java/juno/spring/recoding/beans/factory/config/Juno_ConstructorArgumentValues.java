@@ -47,4 +47,9 @@ public class Juno_ConstructorArgumentValues {
 		this.indexedArgumentValues.put(Integer.parseInt(indexAttr), valueHolder);
 		
 	}
+
+	public Map<Integer, Juno_ValueHolder> getIndexedArgumentValues() {
+		return indexedArgumentValues;
+	}
+	
 }

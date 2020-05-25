@@ -10,6 +10,8 @@ public class Juno_BeanDefinition {
 
 	public Juno_BeanDefinition() {
 		this.constructorArgumentValues = new Juno_ConstructorArgumentValues();
+		
+		
 	}
 
 	public Juno_ConstructorArgumentValues getConstructorArgumentValues() {

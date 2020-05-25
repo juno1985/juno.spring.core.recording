@@ -32,7 +32,7 @@ public abstract class Juno_BeanUtils {
 		return instantiateClass(clazz.getDeclaredConstructor());
 	}
 
-	private static <T> T instantiateClass(Constructor<T> ctor, Object... args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static <T> T instantiateClass(Constructor<T> ctor, Object... args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Juno_Assert.notNull(ctor, "Constructor must not be null");
 		Juno_ReflectionUtils.makeAccessible(ctor);
 		

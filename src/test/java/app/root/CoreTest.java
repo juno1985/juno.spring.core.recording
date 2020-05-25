@@ -59,6 +59,13 @@ public class CoreTest {
 	}
 	
 	@Test
+	public void testCreateIntanceWithConsArgs() throws Exception {
+		Juno_XmlBeanFactory bf = new Juno_XmlBeanFactory(new Juno_ClassPathResource("beans.xml"));
+		Person person = (Person) bf.getBean("person_ctor_args");
+		assertEquals("Li Ning", person.getName());
+	}
+	
+	@Test
 	public void testJuno_XmlBeanDefinitionReader_doLoadDocument() throws ParserConfigurationException, SAXException, IOException {
 		
 		Juno_XmlBeanDefinitionReader reader = new Juno_XmlBeanDefinitionReader(null);

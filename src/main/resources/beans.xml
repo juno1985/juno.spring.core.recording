@@ -9,5 +9,9 @@
      
     </bean>
 
+	<bean id="person_ctor_args" class="juno.app.root.Person">  
+      <constructor-arg type = "String" name="name" value="Li Ning">
+      </constructor-arg>
+    </bean>
 
 </beans>

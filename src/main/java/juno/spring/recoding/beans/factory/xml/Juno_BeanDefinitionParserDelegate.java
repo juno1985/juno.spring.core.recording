@@ -18,6 +18,7 @@ public class Juno_BeanDefinitionParserDelegate {
 	public static final String ID_ATTRIBUTE = "id";
 	public static final String CLASS_ATTRIBUTE = "class";
 	public static final String CONSTRUCTOR_ARG_ELEMENT = "constructor-arg";
+	public static final String INDEX_ATTRIBUTE = "index";
 	public static final String NAME_ATTRIBUTE = "name";
 	public static final String TYPE_ATTRIBUTE = "type";
 	public static final String VALUE_ATTRIBUTE = "value";
@@ -80,12 +81,14 @@ public class Juno_BeanDefinitionParserDelegate {
 				String nameAttr = ((Element) node).getAttribute(NAME_ATTRIBUTE);
 				String typeAttr = ((Element)node).getAttribute(TYPE_ATTRIBUTE);
 				String valAttr = ((Element)node).getAttribute(VALUE_ATTRIBUTE);
-				
+				String indexAttr = ((Element)node).getAttribute(INDEX_ATTRIBUTE);
 				Juno_ConstructorArgumentValues.Juno_ValueHolder valueHolder = new  Juno_ConstructorArgumentValues.Juno_ValueHolder(); 
 				
 				valueHolder.setName(nameAttr);
 				valueHolder.setType(typeAttr);
 				valueHolder.setValue(valAttr);
+				
+				bd.getConstructorArgumentValues().addIndexedArgumentValue(indexAttr, valueHolder);
 			}
 		}
 		

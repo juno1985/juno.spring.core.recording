@@ -1,7 +1,11 @@
 package juno.spring.recoding.beans.factory.config;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class Juno_ConstructorArgumentValues {
 
+	private final Map<Integer, Juno_ValueHolder> indexedArgumentValues = new LinkedHashMap<Integer, Juno_ValueHolder>();
 	
 	public static class Juno_ValueHolder{
 		
@@ -35,6 +39,12 @@ public class Juno_ConstructorArgumentValues {
 			this.name = name;
 		}
 		
+		
+	}
+
+	public void addIndexedArgumentValue(String indexAttr,
+			Juno_ValueHolder valueHolder) {
+		this.indexedArgumentValues.put(Integer.parseInt(indexAttr), valueHolder);
 		
 	}
 }

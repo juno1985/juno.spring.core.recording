@@ -1,8 +1,25 @@
 package juno.spring.recoding.beans.factory.support;
 
+import juno.spring.recoding.beans.factory.config.Juno_ConstructorArgumentValues;
+
 public class Juno_BeanDefinition {
 	
 	private volatile Class<?> beanClass;
+	
+	private Juno_ConstructorArgumentValues constructorArgumentValues;
+
+	public Juno_BeanDefinition() {
+		this.constructorArgumentValues = new Juno_ConstructorArgumentValues();
+	}
+
+	public Juno_ConstructorArgumentValues getConstructorArgumentValues() {
+		return constructorArgumentValues;
+	}
+
+	public void setConstructorArgumentValues(
+			Juno_ConstructorArgumentValues constructorArgumentValues) {
+		this.constructorArgumentValues = constructorArgumentValues;
+	}
 
 	public void setBeanClassName(String beanClassName) {
 		try {

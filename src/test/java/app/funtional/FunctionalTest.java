@@ -138,5 +138,14 @@ public class FunctionalTest {
 			System.out.println(c.getName());
 		}
 	}
+	
+	@Test
+	public void testPrimaryType() throws ClassNotFoundException {
+		Class<?> clazz = int.class;
+		System.out.println(clazz.getName());
+		
+		System.out.println(int.class.isPrimitive());
+		System.out.println(Integer.class.isPrimitive());
+	}
 
 }

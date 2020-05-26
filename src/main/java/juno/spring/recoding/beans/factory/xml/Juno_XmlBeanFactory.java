@@ -77,7 +77,7 @@ public class Juno_XmlBeanFactory {
 			while(it.hasNext()) {
 				Entry<Integer, Juno_ValueHolder> entry = it.next();
 				String typeStr = ((Juno_ValueHolder)entry.getValue()).getType();
-				//Class<?> paramClazz = Class.forName(typeStr);
+			//	Class<?> paramClazz = Class.forName(typeStr);
 				Class<?> paramClazz = Class.forName("java.lang." + typeStr);
 				paramTypes[i] = paramClazz;
 				String paramVal = (String) ((Juno_ValueHolder)entry.getValue()).getValue();

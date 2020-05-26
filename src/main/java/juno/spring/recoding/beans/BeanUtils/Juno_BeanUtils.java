@@ -12,7 +12,7 @@ import juno.spring.recoding.util.Juno_ReflectionUtils;
 public abstract class Juno_BeanUtils {
 	
 	private static final Map<Class<?>, Object> DEFAULT_TYPE_VALUES;
-	
+	public static final Map<String, Class<?>> PRIMARY_TYPE;
 	static {
 		Map<Class<?>, Object> values = new HashMap<Class<?>, Object>();
 		values.put(boolean.class, false);
@@ -21,6 +21,15 @@ public abstract class Juno_BeanUtils {
 		values.put(short.class, (short)0);
 		values.put(long.class, (long)0);
 		DEFAULT_TYPE_VALUES = Collections.unmodifiableMap(values);
+	}
+	
+	static {
+		Map<String, Class<?>> values = new HashMap<String, Class<?>>();
+		values.put("int", int.class);
+		values.put("byte", byte.class);
+		values.put("short", short.class);
+		values.put("long", long.class);
+		PRIMARY_TYPE = Collections.unmodifiableMap(values);
 	}
 	
 	public static <T> T instantiateClass(Class<T> clazz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{

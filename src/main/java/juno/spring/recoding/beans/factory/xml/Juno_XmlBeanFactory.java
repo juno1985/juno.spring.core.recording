@@ -78,7 +78,7 @@ public class Juno_XmlBeanFactory {
 				Entry<Integer, Juno_ValueHolder> entry = it.next();
 				String typeStr = ((Juno_ValueHolder)entry.getValue()).getType();
 			//	Class<?> paramClazz = Class.forName(typeStr);
-				Class<?> paramClazz = Class.forName("java.lang." + typeStr);
+				Class<?> paramClazz = Juno_BeanUtils.PRIMARY_TYPE.containsKey(typeStr) ? Juno_BeanUtils.PRIMARY_TYPE.get(typeStr) : Class.forName("java.lang." + typeStr);
 				paramTypes[i] = paramClazz;
 				String paramVal = (String) ((Juno_ValueHolder)entry.getValue()).getValue();
 				paramValues[i] = Juno_StringToAnyTypeValueConverter.strToAnyType(paramClazz.getName(), paramVal);

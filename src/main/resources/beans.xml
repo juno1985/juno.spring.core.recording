@@ -16,7 +16,7 @@
     
     <bean id="person_ctor_multi_args" class="juno.app.root.Person">  
       <constructor-arg index="1" type = "String" name="name" value="Wang Feng"> </constructor-arg>
-      <constructor-arg index="2" type = "Integer" name="age" value="32"></constructor-arg>
+      <constructor-arg index="2" type = "int" name="age" value="32"></constructor-arg>
     </bean>
 
 </beans>

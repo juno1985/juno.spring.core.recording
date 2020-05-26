@@ -4,6 +4,8 @@ import juno.spring.recoding.beans.factory.config.Juno_ConstructorArgumentValues;
 
 public class Juno_BeanDefinition {
 	
+	private String scope;
+	
 	private volatile Class<?> beanClass;
 	
 	private Juno_ConstructorArgumentValues constructorArgumentValues;
@@ -41,5 +43,17 @@ public class Juno_BeanDefinition {
 			throw new IllegalStateException("Bean class name ["+beanClassObject+"] has not been resolved into an actual Class");
 		}
 		return (Class<?>)beanClassObject;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+	
+	public boolean isSingleton() {
+		return "singleton".equals(this.scope);
 	}
 }

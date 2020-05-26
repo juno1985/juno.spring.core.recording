@@ -3,6 +3,8 @@ package app.root;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -73,6 +75,7 @@ public class CoreTest {
 		assertEquals(32, person.getAge());
 	}
 	
+	
 	@Test
 	public void testJuno_XmlBeanDefinitionReader_doLoadDocument() throws ParserConfigurationException, SAXException, IOException {
 		
@@ -93,5 +96,30 @@ public class CoreTest {
 		}
 	}
 	
+	@Test
+	public void testCreateSinglonInstanceInCache() throws Exception {
+		final Juno_XmlBeanFactory bf = new Juno_XmlBeanFactory(new Juno_ClassPathResource("beans.xml"));
+		final List<Object> list = new ArrayList<>();
+		for(int i = 1; i < 10000 ; i++) {
+			Runnable thread = new Runnable() {
+
+				@Override
+				public void run() {
+					
+					Person person = (Person)bf.getBean("person_ctor_multi_args");
+					list.add(person);
+				}};
+			thread.run();
+		}
+		Object obj = list.get(0);
+		String result = "same object";
+		for(Object o : list) {
+			if(obj != o) {
+				result = "not same";
+				break;
+			}
+		}
+		assertEquals("same object", result);	
+	}
 
 }

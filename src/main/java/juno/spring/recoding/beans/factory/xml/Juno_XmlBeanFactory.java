@@ -6,15 +6,20 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import juno.spring.recoding.beans.BeanUtils.Juno_BeanUtils;
 import juno.spring.recoding.beans.BeanUtils.Juno_StringToAnyTypeValueConverter;
 import juno.spring.recoding.beans.factory.config.Juno_ConstructorArgumentValues.Juno_ValueHolder;
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinition;
 import juno.spring.recoding.beans.factory.support.Juno_BeanDefinitionRegistry;
+import juno.spring.recoding.beans.factory.support.Juno_DefaultSingletonBeanRegistry;
 import juno.spring.recoding.core.io.Juno_Resource;
 
 public class Juno_XmlBeanFactory {
 	
+	private final Log logger = LogFactory.getLog(this.getClass());
 	private final Juno_XmlBeanDefinitionReader reader = new Juno_XmlBeanDefinitionReader(this);
 	
 	public Juno_XmlBeanFactory(Juno_Resource resource) throws Exception {
@@ -42,10 +47,22 @@ public class Juno_XmlBeanFactory {
 	private Object doGetBean(String beanName) {
 		Juno_BeanDefinition jdb = Juno_BeanDefinitionRegistry.beanDefinitionMap.get(beanName);
 		//Todo 需要考虑单例的情况创建bean,直接从ConcurrentHashMap中取
-		Class<?> resolvedClass =  jdb.getBeanClass();
+		
+		if(jdb.isSingleton() && Juno_DefaultSingletonBeanRegistry.singletonObjects.containsKey(beanName)) {
+			logger.info("从单例缓存中获取");
+			return Juno_DefaultSingletonBeanRegistry.singletonObjects.get(beanName);
+		}
+	
 		//Todo 这里需要考虑带参构造函数创建bean
 		try {
+			
+		//	Thread.sleep(50000);
+			
 			Object beanInstance = doCreateBean(beanName, jdb);
+			if(jdb.isSingleton()) {
+				logger.info("单例加入缓存");
+				Juno_DefaultSingletonBeanRegistry.singletonObjects.put(beanName, beanInstance);
+			}
 			return beanInstance;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -22,6 +22,7 @@ public class Juno_BeanDefinitionParserDelegate {
 	public static final String NAME_ATTRIBUTE = "name";
 	public static final String TYPE_ATTRIBUTE = "type";
 	public static final String VALUE_ATTRIBUTE = "value";
+	public static final String SCOPE = "scope";
 	
 	//解析xml的时候存储bean name用来判断bean name的唯一性
 	private final Set<String> userNames = new HashSet<String>();
@@ -65,6 +66,11 @@ public class Juno_BeanDefinitionParserDelegate {
 		}
 		//Todo 解析其他属性
 		//parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
+		
+		
+		if(ele.hasAttribute(SCOPE)) {
+			bd.setScope(ele.getAttribute(SCOPE));
+		}
 		
 		parseConstructorArgElement(ele, bd);
 		

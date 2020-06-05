@@ -1,6 +1,7 @@
 package core.java.my.concurrenthashmap;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +26,9 @@ public class MyConcurrentHashMap<K, V> {
 	
 	static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash
 
-	volatile Node<K, V>[] table;
+//	volatile Node<K, V>[] table;
+	
+	volatile AtomicReferenceArray<Node<K,V>> table;
 
 	public MyConcurrentHashMap() {
 
@@ -45,11 +48,11 @@ public class MyConcurrentHashMap<K, V> {
 		return cap;
 	}
 
-	public final Node<K, V>[] initTable() {
-		Node<K, V>[] tab;
+	public final AtomicReferenceArray<Node<K, V>> initTable() {
+		AtomicReferenceArray<Node<K, V>> tab;
 		int sc;
 
-		while ((tab = table) == null || tab.length == 0) {
+		while ((tab = table) == null || tab.length() == 0) {
 			// 如果一个线程发现sizeCtl<0，意味着另外的线程执行CAS操作成功，当前线程只需要让出cpu时间片
 			if ((sc = sizeCtl.get()) < 0) {
 				logger.info(Thread.currentThread().getName()
@@ -63,10 +66,9 @@ public class MyConcurrentHashMap<K, V> {
 				logger.info(
 						Thread.currentThread().getName() + " -> 初始化化數組開始...");
 				try {
-					if ((tab = table) == null || tab.length == 0) {
-
+					if ((tab = table) == null || tab.length() == 0) {
 						Node<K, V>[] nt = (Node<K, V>[]) new Node<?, ?>[DEFAULT_CAPACITY];
-						table = tab = nt;
+						table = tab = new AtomicReferenceArray<Node<K, V>>(nt);
 						sc = DEFAULT_CAPACITY - (DEFAULT_CAPACITY >>> 2);// 0.75*capacity
 						logger.info(Thread.currentThread().getName()
 								+ " -> 數組初始化完畢，容量: " + DEFAULT_CAPACITY);
@@ -79,7 +81,6 @@ public class MyConcurrentHashMap<K, V> {
 				break;
 			}
 		}
-
 		return tab;
 	}
 
@@ -87,11 +88,19 @@ public class MyConcurrentHashMap<K, V> {
 		if (key == null || value == null)
 			throw new NullPointerException();
 		int hash = spread(key.hashCode());
-		for(Node<K, V>[] tab = table;;) {
+		for(AtomicReferenceArray<Node<K, V>> tab = table;;) {
 			Node<K,V> f; int n, i, fh; K fk; V fv;
-			 if (tab == null || (n = tab.length) == 0)
+			 if (tab == null || (n = tab.length()) == 0)
 	                tab = initTable();
+			 else if(tab.get(hash & (n-1)) == null) {
+				 logger.info(Thread.currentThread().getName() + " -> 找到空buket: " + (hash & (n-1)));
+				 Node<K, V> node = new Node<>(hash, key, value);
+				 tab.set(hash & (n-1), node);
+				 logger.info(Thread.currentThread().getName() + " -> 完成添加进buket: " + (hash & (n-1)));
+				 break;
+			 }
 		}
+		return value;
 	}
 
 	static final int spread(int h) {

@@ -22,6 +22,8 @@ public class MyConcurrentHashMap<K, V> {
 	private volatile AtomicInteger sizeCtl = new AtomicInteger();
 
 	private static final int DEFAULT_CAPACITY = 16;
+	
+	static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash
 
 	volatile Node<K, V>[] table;
 
@@ -79,6 +81,21 @@ public class MyConcurrentHashMap<K, V> {
 		}
 
 		return tab;
+	}
+
+	public final V put(K key, V value) {
+		if (key == null || value == null)
+			throw new NullPointerException();
+		int hash = spread(key.hashCode());
+		for(Node<K, V>[] tab = table;;) {
+			Node<K,V> f; int n, i, fh; K fk; V fv;
+			 if (tab == null || (n = tab.length) == 0)
+	                tab = initTable();
+		}
+	}
+
+	static final int spread(int h) {
+		return (h ^ (h >>> 16)) & HASH_BITS;
 	}
 
 	static class Node<K, V> {

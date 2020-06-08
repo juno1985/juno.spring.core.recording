@@ -1,5 +1,6 @@
 package core.java.my.concurrenthashmap;
 
+import java.time.temporal.ValueRange;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
@@ -88,6 +89,8 @@ public class MyConcurrentHashMap<K, V> {
 		if (key == null || value == null)
 			throw new NullPointerException();
 		int hash = spread(key.hashCode());
+		int binCount = 0;
+		//死循环尝试添加，直到添加成功
 		for(AtomicReferenceArray<Node<K, V>> tab = table;;) {
 			Node<K,V> f; int n, i, fh; K fk; V fv;
 			 if (tab == null || (n = tab.length()) == 0)
@@ -98,6 +101,26 @@ public class MyConcurrentHashMap<K, V> {
 				 tab.set(hash & (n-1), node);
 				 logger.info(Thread.currentThread().getName() + " -> 完成添加进buket: " + (hash & (n-1)));
 				 break;
+			 }
+			 else {
+				 f = tab.get(hash & (n-1));
+				 fh = f.hash;
+				 V oldVal = null;
+				 synchronized(f) {
+					 //链表
+					 if(fh >= 0) {
+						 binCount = 1;
+						 for(Node<K, V> e = f;;++binCount) {
+							 K ek;
+							 if(e.hash == hash && ((ek=e.key)==key||(ek!=null && key.equals(ek)))) {
+								 logger.info("key: " + (hash & (n-1)) + " 在链表深度: " + binCount + " 找到相同key,更新val: " + e.val + " --> " + value);
+								 oldVal = e.val;
+								 e.val = value;
+								 return oldVal;
+							 }
+						 }
+					 }
+				 }
 			 }
 		}
 		return value;

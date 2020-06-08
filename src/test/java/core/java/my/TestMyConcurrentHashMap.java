@@ -56,7 +56,7 @@ public class TestMyConcurrentHashMap {
 
 	@Test
 	public void testMultiThreadPut() throws InterruptedException {
-		final int thread_num = 10;
+		final int thread_num = 20;
 		CountDownLatch latch = new CountDownLatch(thread_num);
 		CyclicBarrier barrier = new CyclicBarrier(thread_num);
 		final MyConcurrentHashMap<Integer, String> conHashMap = new MyConcurrentHashMap<>();

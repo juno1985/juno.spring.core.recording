@@ -118,6 +118,13 @@ public class MyConcurrentHashMap<K, V> {
 								 e.val = value;
 								 return oldVal;
 							 }
+							 Node<K, V>  pred = e;
+							 e = e.next;
+							 if(e == null) {
+								 pred.next = new Node<K, V>(hash, key, value);
+								 logger.info("key: " + (hash & (n-1)) + " 在链表深度: " + binCount + "插入: " + value);
+								 break;
+							 }
 						 }
 					 }
 				 }

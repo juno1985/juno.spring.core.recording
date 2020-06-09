@@ -87,5 +87,17 @@ public class TestMyConcurrentHashMap {
 		}
 		return sb.toString();
 	}
+	@Test
+	public void testPut() {
+		MyConcurrentHashMap<Integer, String> conHashMap = new MyConcurrentHashMap<>();
+		conHashMap.put(1, "aaa");
+		conHashMap.put(1, "bbb");
+		conHashMap.put(2, "ccc");
+		conHashMap.put(3, "ccc");
+		conHashMap.put(4, "ccc");
+		conHashMap.put(5, "ccc");
+		conHashMap.put(6, "ccc");
+		conHashMap.put(7, "ccc");
+	}
 
 }
